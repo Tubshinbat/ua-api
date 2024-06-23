@@ -4,8 +4,8 @@ const { valueRequired } = require("../lib/check");
 const Menu = require("../models/Menu");
 const { slugify } = require("transliteration");
 const Page = require("../models/Page");
-const News = require('../models/News');
-const Employee = require('../models/Employees');
+const News = require("../models/News");
+const Employee = require("../models/Employees");
 
 exports.createMenu = asyncHandler(async (req, res) => {
   const language = req.cookies.language || "mn";
@@ -130,18 +130,24 @@ exports.getSlugMenu = asyncHandler(async (req, res) => {
   let news = null;
   let position = null;
 
-  childeMenus = await Menu.find({ status: true }).where('parentId').in(menu._id);
+  childeMenus = await Menu.find({ status: true })
+    .where("parentId")
+    .in(menu._id);
   if (menu.parentId) {
-    sameParentMenus = await Menu.find({ status: true }).where('parentId').in(menu.parentId);
+    sameParentMenus = await Menu.find({ status: true })
+      .where("parentId")
+      .in(menu.parentId);
     parentMenu = await Menu.findById(menu.parentId);
   }
 
-  let page = await Page.find({ status: true }).where('menu').in(menu._id);
+  let page = await Page.find({ status: true }).where("menu").in(menu._id);
   if (valueRequired(page)) {
-    news = await News.find({}).where('categories').in(page[0].categories);
-    position = await Employee.find({}).where('positions').in(page[0].position);
+    news = await News.find({}).where("categories").in(page[0].categories);
+    position = await Employee.find({})
+      .where("positions")
+      .in(page[0].position)
+      .sort({ position: 1 });
   }
-
 
   res.status(200).json({
     success: true,
@@ -150,7 +156,7 @@ exports.getSlugMenu = asyncHandler(async (req, res) => {
     page,
     childeMenus,
     sameParentMenus,
-    position
+    position,
   });
 });
 
