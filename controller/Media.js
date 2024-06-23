@@ -80,7 +80,7 @@ exports.getMedias = asyncHandler(async (req, res) => {
 
   stringDtl.map((el) => {
     if (valueRequired(userInput[el]))
-      if (el == "type" && userInput[el] != "all")
+      if (el == "type" && userInput[el] !== "all")
         query.find({ [el]: RegexOptions(userInput[el]) });
   });
 
