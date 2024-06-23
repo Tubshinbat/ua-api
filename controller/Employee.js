@@ -86,8 +86,8 @@ exports.getEmployees = asyncHandler(async (req, res) => {
   }
 
   if (valueRequired(positions)) {
-    const positions = await usePositions(positions);
-    if (positions) query.where("positions").in(positions);
+    const reuslt = await usePositions(positions);
+    if (reuslt) query.where("positions").in(reuslt);
   }
 
   if (valueRequired(sort)) {
