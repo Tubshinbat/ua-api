@@ -10,6 +10,7 @@ const {
   multDeleteEmployee,
   getEmployee,
   updateEmployee,
+  changePosition,
 } = require("../controller/Employee");
 
 router
@@ -20,9 +21,15 @@ router
 router.route("/s/:slug").get(getSlugEmployee);
 
 router
+  .route("/change")
+  .post(protect, authorize("admin", "operator"), changePosition);
+
+router
   .route("/count")
   .get(protect, authorize("admin", "operator"), getCountEmployee);
 router.route("/delete").delete(protect, authorize("admin"), multDeleteEmployee);
+
+router.route("/change").post(protect, authorize("admin"), changePosition);
 
 router
   .route("/:id")

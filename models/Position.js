@@ -51,5 +51,4 @@ const PositionSchema = new mongoose.Schema({
   },
 });
 
-
 module.exports = mongoose.model("Position", PositionSchema);

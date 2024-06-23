@@ -132,6 +132,25 @@ exports.getEmployees = asyncHandler(async (req, res) => {
   });
 });
 
+exports.changePosition = asyncHandler(async (req, res) => {
+  const employees = req.body.data;
+
+  if (!employees) throw new MyError("Дата илгээгүй байна.", 404);
+  const positionChange = (datas) => {
+    datas.map(async (el, index) => {
+      const data = {
+        position: index,
+      };
+      await Employees.findByIdAndUpdate(el.key, data);
+    });
+  };
+
+  positionChange(employees);
+  res.status(200).json({
+    success: true,
+  });
+});
+
 exports.excelData = asyncHandler(async (req, res) => {
   const page = req.query.page || 1;
   let sort = req.query.sort || { createAt: -1 };

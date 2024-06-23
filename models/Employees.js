@@ -14,8 +14,12 @@ const EmployeesSchema = new mongoose.Schema({
     },
   ],
 
-  phoneNumber: {
+  position: {
     type: Number,
+  },
+
+  phoneNumber: {
+    type: String,
   },
 
   email: {
