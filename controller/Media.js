@@ -37,11 +37,11 @@ exports.createMedia = asyncHandler(async (req, res) => {
   }
 
   if (!valueRequired(req.body.videos) || req.body.videos.length <= 0) {
-    delete req.body.videos
+    delete req.body.videos;
   }
 
   if (!valueRequired(req.body.audios) || req.body.audios.length <= 0) {
-    delete req.body.audios
+    delete req.body.audios;
   }
 
   const nameUnique = await Media.find({ slug: slugify(name) });
@@ -80,7 +80,8 @@ exports.getMedias = asyncHandler(async (req, res) => {
 
   stringDtl.map((el) => {
     if (valueRequired(userInput[el]))
-      query.find({ [el]: RegexOptions(userInput[el]) });
+      if (el == "type" && userInput[el] != "all")
+        query.find({ [el]: RegexOptions(userInput[el]) });
   });
 
   if (valueRequired(createUser)) {
@@ -131,7 +132,7 @@ exports.getMedias = asyncHandler(async (req, res) => {
     const cIds = await useMediaCategorySearch(categories);
     if (cIds && cIds.length > 0) query.where("categories").in(cIds);
     const ids = await useSlugMediaCategorySearch(categories);
-    if (ids) query.where('categories').in(ids)
+    if (ids) query.where("categories").in(ids);
   }
 
   if (valueRequired(categoriesId)) {
@@ -186,7 +187,6 @@ exports.getSlugMedia = asyncHandler(async (req, res, next) => {
 
   media.views + 1;
   media.save();
-
 
   res.status(200).json({
     success: true,
