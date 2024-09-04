@@ -837,8 +837,8 @@ exports.multDeletePages = asyncHandler(async (req, res) => {
   }
 
   finds.map(async (el) => {
-    if (el && el.pictures)
-      el.pictures(async (picture) => {
+    if (el && el.pictures && el.pictures.length > 0)
+      el.pictures.map(async (picture) => {
         await imageDelete(picture);
       });
   });
