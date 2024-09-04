@@ -32,6 +32,8 @@ exports.createPage = asyncHandler(async (req, res) => {
     categories,
   } = req.body;
 
+  console.log(req.body);
+
   if (!valueRequired(menu) || menu.length <= 0) req.body.menu = [];
   if (!valueRequired(position) || position.length <= 0) req.body.position = [];
 
