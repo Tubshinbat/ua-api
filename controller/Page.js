@@ -837,9 +837,10 @@ exports.multDeletePages = asyncHandler(async (req, res) => {
   }
 
   finds.map(async (el) => {
-    el.pictures(async (picture) => {
-      await imageDelete(picture);
-    });
+    if (el && el.pictures)
+      el.pictures(async (picture) => {
+        await imageDelete(picture);
+      });
   });
 
   const pages = await Page.deleteMany({ _id: { $in: ids } });
