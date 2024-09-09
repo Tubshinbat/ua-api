@@ -185,8 +185,11 @@ exports.getSlugMedia = asyncHandler(async (req, res, next) => {
     throw new MyError("Өгөгдөл олдсонгүй.", 404);
   }
 
-  media.views + 1;
-  media.save();
+  await Media.findByIdAndUpdate(
+    media._id,
+    { $inc: { views: 1 } },
+    { new: true } // This option returns the updated document
+  );
 
   res.status(200).json({
     success: true,

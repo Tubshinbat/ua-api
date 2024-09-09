@@ -4,14 +4,18 @@ const asyncHandler = require("express-async-handler");
 const paginate = require("../utils/paginate");
 const { imageDelete } = require("../lib/fileUpload");
 const { valueRequired } = require("../lib/check");
-const { useNewsCategories, RegexOptions, useNewsSlugCategories } = require("../lib/searchOfterModel");
+const {
+  useNewsCategories,
+  RegexOptions,
+  useNewsSlugCategories,
+} = require("../lib/searchOfterModel");
 const { slugify } = require("transliteration");
 
 exports.createNews = asyncHandler(async (req, res) => {
   const language = req.cookies.language || "mn";
   req.body.status = valueRequired(req.body.status) ? req.body.status : true;
   req.body.star = valueRequired(req.body.star) ? req.body.star : true;
-  
+
   if (!valueRequired(req.body.categories)) {
     throw new MyError("Ангилал сонгоно уу", 404);
   }
@@ -368,8 +372,11 @@ exports.getSlugNews = asyncHandler(async (req, res) => {
     throw new MyError("Мэдээлэл олдсонгүй.", 404);
   }
 
-  news.views + 1;
-  news.save();
+  await News.findByIdAndUpdate(
+    news._id,
+    { $inc: { views: 1 } },
+    { new: true } // This option returns the updated document
+  );
 
   res.status(200).json({
     success: true,
@@ -429,8 +436,6 @@ exports.updateNews = asyncHandler(async (req, res) => {
   } else {
     req.body.slug = slugify(name);
   }
-
-
 
   news = await News.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
