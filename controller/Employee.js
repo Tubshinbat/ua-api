@@ -16,6 +16,8 @@ exports.createEmployee = asyncHandler(async (req, res) => {
   const { name, about, degree } = req.body;
   const fileds = ["name", "about", "degree"];
 
+  console.log(req.body);
+
   req.body[language] = {
     name,
     about,
