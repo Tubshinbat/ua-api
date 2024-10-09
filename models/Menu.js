@@ -24,9 +24,15 @@ const MenuSchema = new mongoose.Schema({
     name: {
       type: String,
     },
+    short: {
+      type: String,
+    },
   },
   eng: {
     name: {
+      type: String,
+    },
+    short: {
       type: String,
     },
   },
@@ -74,7 +80,5 @@ const MenuSchema = new mongoose.Schema({
     ref: "User",
   },
 });
-
-
 
 module.exports = mongoose.model("Menu", MenuSchema);

@@ -10,7 +10,8 @@ const Employee = require("../models/Employees");
 exports.createMenu = asyncHandler(async (req, res) => {
   const language = req.cookies.language || "mn";
   const parentId = req.body.parentId || null;
-  const name = req.body.name;
+  const { name, short } = req.body;
+
   let position = 0;
 
   if (!valueRequired(name)) {
@@ -36,6 +37,7 @@ exports.createMenu = asyncHandler(async (req, res) => {
   req.body.position = position;
   req.body[language] = {
     name,
+    short,
   };
 
   const nameUnique = await Menu.find({ slug: slugify(name) });
@@ -230,7 +232,7 @@ exports.updateMenu = asyncHandler(async (req, res) => {
     throw new MyError("Өгөгдөл олдсонгүй дахин оролдоно үү", 404);
   }
 
-  const name = req.body.name;
+  const { name, short } = req.body;
   const language = req.cookies.language || "mn";
 
   const nameUnique = await Menu.find({ slug: slugify(name) });
@@ -244,6 +246,7 @@ exports.updateMenu = asyncHandler(async (req, res) => {
 
   req.body[language] = {
     name,
+    short,
   };
 
   const category = await Menu.findByIdAndUpdate(req.params.id, req.body, {

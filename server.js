@@ -46,6 +46,8 @@ connectDB();
 
 // Манай рест апиг дуудах эрхтэй сайтуудын жагсаалт :
 var whitelist = [
+  "http://localhost:3001",
+  "http://localhost:3000",
   "https://ua.vercel.app",
   "http://192.168.10.25",
   "https://naog.lvg.mn",
